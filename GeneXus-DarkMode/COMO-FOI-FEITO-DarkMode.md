@@ -463,6 +463,136 @@ Os testes de regressão `Test13`, `Test14`, `Test16`, `Test17` e `Test18` deram 
 - os ícones de nível, For Each e índice dentro da Navigation View (já estão em lista de 32 bits, sem a cópia de 8 bits);
 - o diálogo "View last import log".
 
-### 11.9 Atribuição
+### 11.9 Relatório da Navigation View com folha de estilo Next
+
+- **Problema:** o relatório (`ReportView` → XSL `spec.xsl` → `GXChromiumBrowser`) usa `gxxml/genexus.css`. A inversão genérica do `DarkJs` deixava tudo com cara de "negativo" e transformava os links `.gxobj` (spans azul-escuros) em texto cinza.
+- **Solução:** quando a página tem um `<link>` para `genexus.css`, o `DarkJs` injeta uma vez `<style id='gxNextReport'>` e pula a passada genérica:
+  - fundo #11151C, texto #DCE2EB, cabeçalho #181F2A com linha inferior #2C8DCE, tabelas #1B2330, separadores #2A333F;
+  - rótulos #8A909B, links/objetos #5BA7FF (hover #8CC2FF sublinhado), erros/inexistentes #E35861, avisos #E5A54B;
+  - palavras-chave WHEN/OTHERWISE em #C792EA (o JS marca `data-gxn='kw'`, porque dividem a classe `.NavigationWarning` com "No index!").
+- É só exibição: nada é gravado em arquivo e desligar a extensão volta ao CSS original. `tbllist.xsl` (lista de tabelas/Impact Analysis) e `IMPORT.XSL` também incluem `include.xsl` → `genexus.css` e recebem o mesmo estilo.
+- **Verificação:** `navigation-report-verificacao.png` (Chrome offscreen, 125%). Ainda não conferido dentro do GX.
+
+### 11.10 Ícone da aba Web Layout (parte default)
+
+- **Problema:** `DocumentPartFrame` (aba de parte com padrão, ex.: Web Layout) compõe em `RefreshIcon` o raio `Images.Default` + sobreposição Enabled/Disabled numa lista de 8 bits, com bordas serrilhadas.
+- **Solução (`GxIcons.PartIcons`):** em cada `TabControl` Crownwood, qualquer página que tenha um campo `bool? *IsDefault*` e um campo `ImageList` próprio recebe uma lista nova de 32 bits com o ícone Mercury:
+  - parte default → `patterns-default-associated/default-associated-synchronized`;
+  - parte editada → `patterns-default-associated/default-associated-modified`.
+- A lista do GeneXus (`m_ImageList`) nunca é alterada; só troca a referência `ImageList` da aba. Quando `RefreshIcon` roda de novo (troca de estado), a aba volta a apontar para a lista do GX e a próxima passada (~0,7 s) reaplica o ícone do novo estado.
+- **Reversível:** `RestoreAll` devolve a lista do GX e descarta a nossa; com `icons=false` ou `enabled=false` nada é trocado. Sem patch binário.
+- **Verificação:** `Test22-WebLayout.ps1` (página falsa com os mesmos campos, 125% DPI) → `web-layout-verificacao.png`: listas próprias 32 bits 20×20, troca de estado em 1 passada, restauração para a lista 8 bits do GX.
+- **Ainda não verificado no GX real:** o `DocumentPartFrame` verdadeiro, a troca de estado numa KB e outras partes com padrão.
+
+### 11.11 Atribuição
 
 > Ícones: **GeneXus Mercury** (`@genexus/mercury` 1.5.0), © GeneXus S.A., licenciado sob a Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0). Os PNGs foram gerados a partir dos SVGs públicos do pacote e recoloridos conforme os tokens do Mercury. Três ícones de status (igual, igual com aviso, especificação pendente) e o "X" de erro rosa são derivados no mesmo estilo, com as cores da paleta do Mercury. O aviso de licença acompanha a DLL.
+
+---
+
+## 12. Alternar claro/escuro ao vivo (botão sol/lua)
+
+Desde 28/10/2026, a extensão `ext\GxDarkTheme.dll` troca entre o modo claro e o escuro **sem reiniciar o GeneXus**, como nas outras IDEs. O código fica em `GxToggle.cs`, compilado na mesma DLL. Os PNGs do botão vão embutidos como recursos, então a pasta `ext\` continua só com os 4 arquivos.
+
+### 12.1 Onde fica e como usar
+
+- **Botão:** fica no fim da barra de menus principal, à direita, com 24×24 px a 125% DPI.
+  - No escuro mostra um **sol** (clicar passa para o claro).
+  - No claro mostra uma **lua** (clicar passa para o escuro).
+  - O tooltip diz "Alternar para modo claro/escuro (Ctrl+Shift+F12)".
+  - Se a janela estiver estreita demais e não sobrar espaço na barra, o botão some até haver espaço. O atalho continua valendo.
+- **Atalho:** `Ctrl+Shift+F12`. Na abertura, a extensão verifica se alguma ferramenta do GeneXus já usa essa combinação. Se usar, o atalho do tema fica desligado (o log registra isso) e vale só o botão.
+- **Tempo:** a primeira troca leva cerca de 0,6 a 0,75 s. As seguintes levam em média uns 120 ms para o claro e uns 155 ms para o escuro.
+
+### 12.2 Persistência (`mode=`)
+
+- O modo escolhido é gravado na linha `mode=dark` ou `mode=light` de `%APPDATA%\GeneXus\GeneXus\18\GxDarkTheme.settings`. É a única coisa que a extensão grava.
+- Na próxima abertura, o GeneXus já começa no último modo usado.
+- Com `mode=light`, a extensão carrega mas não aplica o tema. Ela só guarda os originais e mostra a lua.
+- `enabled=false` continua desligando tudo, e `icons=false` continua desligando os ícones Next.
+
+### 12.3 Estilo do ícone (`icone=`)
+
+O padrão, quando o arquivo não tem a linha `icone=`, é a **opção B "Âmbar"** (escolhida a partir da prévia `sol-lua-preview.png`):
+- sol preenchido âmbar `#E5A54B` (`#F0BB6A` no hover) na barra escura;
+- lua ardósia `#3D4B5C` (`#2D3A48` no hover) na barra clara.
+
+Para trocar, acrescente uma linha ao `GxDarkTheme.settings`. O botão lê a linha na abertura do GeneXus.
+
+| Linha | Visual |
+|---|---|
+| *(nenhuma)* ou `icone=ambar` (também `âmbar` ou `b`) | B: sol âmbar / lua ardósia (padrão) |
+| `icone=contorno` (também `a`) | A: sol e lua só em contorno, `#DCE2EB` no escuro e `#2D3A48` no claro |
+| `icone=azul` (também `c`) | C: sol âmbar no escuro / lua azul `#1F63C9` no claro |
+
+A chave `icon=` também é aceita.
+
+### 12.4 Como volta ao claro sem reiniciar
+
+- Antes da primeira troca, cada propriedade que o tema altera é anotada num diário (`Journal`) com o valor original do GeneXus.
+- Ao voltar para o claro, o valor original é devolvido. Se o próprio GeneXus mudou o valor depois, o valor dele é mantido.
+- Cores derivadas que o GeneXus calcula sozinho (abas Crownwood, tabelas de cor do Infragistics, ImageLists de 8 bits) voltam por cópias guardadas na abertura.
+- Tudo acontece em memória e é reversível, sem patch binário e sem mexer em arquivos do GeneXus ou da KB.
+
+**Volta ao vivo:**
+- controles WinForms (fundo e texto);
+- menus, barras e o estilo ISL do Infragistics (o original é recarregado);
+- renderizador das ToolStrips;
+- grades DevExpress;
+- ícones Next, que voltam aos originais do GeneXus;
+- abas Crownwood, incluindo os botões de seta e fechar;
+- listas e listas de estado;
+- barras de título e barras de rolagem (tema do Windows por janela);
+- janelas abertas depois da troca, que já nascem no modo atual.
+
+**Volta ao vivo, mas ainda não verificado no GeneXus real:**
+- navegadores Cef/Monaco: a página recebe um script que desfaz o CSS injetado;
+- documentação (MSHTML/wiki);
+- designer de relatório (Layout de Procedure);
+- editor de código (Actipro SyntaxEditor);
+- barra de status, moldura e property grid.
+
+Se alguma aba ficar com sobras do outro modo, **reabra a aba**. A aba nova nasce no modo atual. Abas web (Web Layout, prévias, wiki) e editores já abertos são os candidatos mais prováveis. A prévia de formulário do WorkWithPlus continua intocada, nos dois modos.
+
+### 12.5 Verificação
+
+- **`Test23-Alternar.ps1`:**
+  - Usa uma janela falsa com Infragistics, DevExpress, Crownwood, listas e ToolStrips, a 125% DPI, e roda 20 ciclos claro↔escuro.
+  - Resultado: 0 diferenças de propriedade nos dois modos, GDI/USER com delta 0 e diário estável (60 objetos).
+  - As únicas diferenças de pixel são do retângulo de foco depois que o teste abre janelas.
+  - Janelas novas abertas em cada modo ficam com 0 diferenças.
+  - O teste roda sem linha `icone=` e confirma o padrão `ambar`.
+- **`Test22-WebLayout.ps1`:** continua OK (ícone da parte default devolvido à lista de 8 bits do GX).
+- **Prévias:** `sol-lua-preview.png` (opções A, B e C) e `alternar-tema-verificacao.png`.
+
+### 12.6 Correções de 28/10 (três pontos do Gabriel)
+
+DLL: `GxDarkTheme.dll`, 757.760 bytes, compilada em 28/10/2026 às 16:26:43 (horário de Brasília), MD5 `5064C09C9BE8A5FDE2E33B392D637339`.
+
+1. **Botão sol/lua desalinhado.**
+   - Causa: o botão ficava a 2 px da borda da barra de menu, cerca de 15 px fora da coluna do X da janela e do painel Properties.
+   - Correção:
+     - O centro do botão agora fica alinhado ao centro do botão Fechar da janela (via `WM_GETTITLEBARINFOEX`).
+     - Na vertical, ele fica centralizado nos textos do menu.
+     - Se o X não estiver disponível (janela sem borda ou minimizada), o botão volta para a margem.
+     - A posição é recalculada no Resize, no SizeChanged e no DpiChanged do formulário.
+   - Medido a 125%: dX=0 e dY=0 em D1, L1 e D21. Antes, dX era 15.
+2. **Barra de abas marrom ou cinza.**
+   - Causa: o TabControl Crownwood guarda `BackColor = SystemColors.Control` explícito, mas `ShouldSerialize` diz "não". Ao voltar ao claro, o diário fazia `ResetBackColor`, e a barra herdava a cor do pai (no GX, #535353). Depois `DefineBackColor` congelava essa cor.
+   - No escuro seguinte, #535353 não é "claro", então nunca era escurecida de novo.
+   - Correção:
+     - O diário agora distingue cor ambiente de cor explícita (`Properties`/`PropBackColor`) e devolve o valor exato quando a cor era explícita.
+     - `CrownOrig` tira uma foto da BackColor e dos campos de cor internos do Crownwood antes do primeiro tema e devolve tudo no claro.
+     - No escuro, `CrownTabs` sempre força o Panel (#181F2A).
+3. **Ícones e fundos do Output depois de alternar.**
+   - Causa: os itens do ToolStrip do Output têm `BackColor = Transparent` explícito, com a mesma armadilha do Serialize. Ao voltar ao claro, ficavam com o fundo do escuro (#242D3C). Assim, o X vermelho, a lupa e os demais ícones apareciam sobre quadrados escuros, e as cores pareciam perdidas.
+   - Corrigido pela mesma lógica de valor exato.
+   - Teste com a barra copiada do GxOutput (mesmos ícones do recurso, mesmo `CustomToolStripRenderer`): L1 e L20 são idênticos a L0.
+
+Verificação (`Test23`, controles reais a 125%):
+- **DLL antiga:** 14 diferenças de propriedade a cada claro (crown2, InertButtons, itens do Output) e 1 a cada escuro (crown2 = #535353).
+- **DLL nova:** 0 diferenças de propriedade em todos os ciclos. Os pixels ficam em 0, exceto o retângulo de foco nos ciclos 5 e 6, que abrem janelas.
+- **Recursos:** GDI com delta -2, USER com delta 0.
+- **Test22:** OK.
+- **Imagem:** `tres-pontos-verificacao.png` (antes e depois).
+- **Observação:** o GxOutput real (`Activator`) trava fora do GX, então o teste usa uma cópia fiel da barra (`T23_REALOUT=1` liga o real).
