@@ -1,0 +1,21 @@
+GxDarkTheme - icones GeneXus Next
+==================================
+
+Os icones substitutos usados pelo GxDarkTheme sao renderizados (PNG 16/24/32 px) a partir dos SVG do pacote
+@genexus/mercury versao 1.5.0 (design system "Mercury" do GeneXus Next, Globant/GeneXus Labs),
+pasta dist/assets/icons-globant/*/dark/.
+
+  Pacote:  https://www.npmjs.com/package/@genexus/mercury  (versao 1.5.0)
+  Fonte:   https://github.com/genexuslabs/design-systems
+  Licenca: Apache License, Version 2.0  (campo "license" do package.json)
+           https://www.apache.org/licenses/LICENSE-2.0
+
+Modificacoes feitas pelo GxDarkTheme: as cores foram fixadas nos estados "enabled"/"hover" do proprio Mercury
+(icones coloridos) ou em #DCE2EB / #F0F4FA (icones monocromaticos); a versao desabilitada e derivada
+(cinza clareado com 55% de opacidade). Nenhum outro arquivo do pacote e redistribuido.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use these files except in
+compliance with the License. Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+express or implied. See the License for the specific language governing permissions and limitations under
+the License.

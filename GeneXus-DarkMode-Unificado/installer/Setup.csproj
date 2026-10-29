@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Setup-GxDarkTheme.exe: assistente de instalacao (WinForms, .NET Framework 4.8 que ja vem no Windows 10/11).
+       Embute a GxDarkTheme.dll compilada (../bin), LICENSE, avisos de terceiros e o LEIA-ME. Build: scripts/build.sh ou scripts/Build.ps1 -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Setup-GxDarkTheme</AssemblyName>
+    <RootNamespace>GxDarkTheme.Instalador</RootNamespace>
+    <LangVersion>5</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Optimize>true</Optimize>
+    <Deterministic>true</Deterministic>
+    <DebugType>none</DebugType>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>setup.ico</ApplicationIcon>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>../bin/</OutputPath>
+    <GenerateSupportedRuntime>false</GenerateSupportedRuntime>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Compile Include="Setup.cs;Operacoes.cs;../src/Nucleo/Produto.cs;../src/Nucleo/Compat.cs;../src/Nucleo/Tema.cs" />
+    <EmbeddedResource Include="../bin/GxDarkTheme.dll" LogicalName="payload.GxDarkTheme.dll" />
+    <EmbeddedResource Include="../LICENSE" LogicalName="payload.LICENSE.txt" />
+    <EmbeddedResource Include="../THIRD-PARTY-NOTICES.md" LogicalName="payload.THIRD-PARTY-NOTICES.md" />
+    <EmbeddedResource Include="../resources/icons/NOTICE.txt" LogicalName="payload.NOTICE-Mercury.txt" />
+    <EmbeddedResource Include="../LEIA-ME.md" LogicalName="payload.LEIA-ME.md" />
+  </ItemGroup>
+</Project>

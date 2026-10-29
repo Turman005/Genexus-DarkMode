@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- GxDarkTheme.dll - pacote de UI do GeneXus 18 (.NET Framework 4.8, C# 5).
+       Referencias: as DLLs do proprio GeneXus (nao vao para o repositorio).
+       dotnet build src/GxDarkTheme.csproj -c Release -p:GeneXusDir="C:\Program Files (x86)\GeneXus\GeneXus18"
+       Para trocar o nome do produto: AssemblyName aqui + src/Nucleo/Produto.cs (Nome, PacoteGuid). -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyName>GxDarkTheme</AssemblyName>
+    <RootNamespace>GxDarkTheme</RootNamespace>
+    <LangVersion>5</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Optimize>true</Optimize>
+    <Deterministic>true</Deterministic>
+    <DebugType>none</DebugType>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>CS0168;CS0219;CS0414;CS0649;CS0169;CS0162;CS1998</NoWarn>
+    <GeneXusDir Condition="'$(GeneXusDir)' == ''">C:\Program Files (x86)\GeneXus\GeneXus18</GeneXusDir>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>../bin/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="$(GeneXusDir)/Artech.*.dll" Private="false" />
+    <Reference Include="$(GeneXusDir)/DevExpress.*v7.3.dll" Private="false" />
+    <Reference Include="$(GeneXusDir)/Infragistics2.Win.v11.1.dll;$(GeneXusDir)/Infragistics2.Shared.v11.1.dll;$(GeneXusDir)/Infragistics2.Win.UltraWinToolbars.v11.1.dll" Private="false" />
+    <Reference Include="$(GeneXusDir)/ActiproSoftware.SyntaxEditor.Net20.dll;$(GeneXusDir)/ActiproSoftware.Shared.Net20.dll;$(GeneXusDir)/ActiproSoftware.WinUICore.Net20.dll" Private="false" />
+    <Compile Include="**/*.cs" Exclude="obj/**;bin/**" />
+    <EmbeddedResource Include="../resources/icons/*" LogicalName="GxIcons.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../resources/roles.txt" LogicalName="GxDarkTheme.roles.txt" />
+    <EmbeddedResource Include="../LICENSE" LogicalName="GxDarkTheme.LICENSE.txt" />
+  </ItemGroup>
+</Project>
