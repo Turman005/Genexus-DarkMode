@@ -1,0 +1,9 @@
+# gerados pelo Build-Dark.ps1 (a DLL vai so nos Releases)
+Xpz.Dark.dll
+CompatibilityVersion.g.cs
+Xpz.Dark.Resources.resources
+# .isl derivado do GenexusOffice2010Silver.isl da GeneXus: o tema e gerado na maquina
+*.isl
+# saidas dos testes
+testes/bin/
+testes/saida/

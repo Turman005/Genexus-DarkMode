@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Manifesto do experimento de dark mode do IDE.
+
+  Um comando so: abrir a tela de configuracao do tema. O resto do package roda
+  na subida do IDE, sem menu.
+
+  O texto do item de menu vem do resource de strings (Xpz.Dark.Resources),
+  indexado pelo id do CommandDefinition - sem ele o popup fica vazio e o menu
+  nao aparece, sem erro nenhum.
+
+  Independente de outras extensoes - id proprio.
+-->
+<Package xmlns='http://schemas.genexus.com/addin/v1.0'
+         id='5d8c2e71-9a43-4f06-b2e8-1c7f3a90d4b6'
+         name='Xpz.Dark'>
+
+  <Resources>
+    <Resource type="strings" name="Xpz.Dark.Resources"/>
+  </Resources>
+
+  <Commands>
+    <CommandDefinition id="XpzDarkConfig" />
+  </Commands>
+
+
+</Package>
