@@ -318,7 +318,21 @@ namespace GxDarkTheme
             States GRIDROW = ITEM.Copy();
             GRIDROW.Set("Normal", St("backColor", PANEL, "foreColor", FG, "borderColor", BORDER, "borderColor2", BORDER, "backColorDisabled", PANEL, "backColorDisabled2", PANEL, "foreColorDisabled", FGDIM));
             GRIDROW.Set("Active", St("backColor", MENUHOT, "foreColor", WHITE));
-            Put("GridRow GridCell", GRIDROW);
+            // Linha com fundo TRANSLUCIDO, como no .isl do GeneXus ("100, 255, 255, 255"): a Infragistics desenha o
+            // fundo do estado Normal POR CIMA da cor de selecao, e opaco ele a cobre - Ctrl+clique no History
+            // selecionava sem mostrar. Medido fora da tela com a grade da HistoryToolwindow: opaco = selecionada
+            // igual as outras (24,31,42); alfa 40 = selecionada 30,71,109 e as normais iguais (o que aparece por
+            // tras e o fundo da grade, o mesmo PANEL).
+            GRIDROW.Set("Normal", St("backColor", "40, " + PANEL, "foreColor", FG, "borderColor", BORDER, "borderColor2", BORDER, "backColorDisabled", PANEL, "backColorDisabled2", PANEL, "foreColorDisabled", FGDIM));
+            GRIDROW.Set("AlternateItem", St("backColor", "40, " + PANEL, "foreColor", FG));
+            Put("GridRow", GRIDROW);
+            // Celula SEM fundo proprio no estado normal, como no .isl do GeneXus: a cor da LINHA aparece atraves
+            // dela. Com o fundo opaco da linha na celula, a linha selecionada ficava coberta - Ctrl+clique no
+            // History selecionava sem mostrar (mesma correcao do Xpz.Dark, TesteSelecao 29/10).
+            States GRIDCELL = GRIDROW.Copy();
+            GRIDCELL.Set("Normal", St("foreColor", FG, "borderColor", BORDER, "borderColor2", BORDER, "foreColorDisabled", FGDIM));
+            GRIDCELL.Set("AlternateItem", St("foreColor", FG));   // linha alternada: idem (o fundo e o da linha)
+            Put("GridCell", GRIDCELL);
             Put("TreeNode TreeCell ListViewItem ValueListItem OptionSetEditorItem ExplorerBarItem NavigationBarLocationListItem", ITEM);
             Put("MenuItem MenuItemButton MenuItemPopupMenu MenuItemStateButton MenuItemAddRemoveToolPopup MenuItemCustomize MenuItemListItem " +
                 "MenuItemResetToolbar MenuItemCustomizeQAT MenuItemLabel MenuItemControlContainer MenuItemPopupControlContainer MenuItemComboBox " +
