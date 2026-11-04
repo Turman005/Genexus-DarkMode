@@ -1,0 +1,239 @@
+# icones GeneXus Next (@genexus/mercury 1.5.0, Apache-2.0)
+I|0|menus/new-object|mono
+I|1|menus/open-object|mono
+I|2|objects/knowledge-base|cor
+I|3|menus/save|mono
+I|4|menus/save-all|mono
+I|5|menus/cut|mono
+I|6|menus/copy|mono
+I|7|menus/paste|mono
+I|8|menus/undo|mono
+I|9|menus/redo|mono
+I|10|menus/undo-close-object|mono
+I|11|menus/delete|mono
+I|12|menus/find|mono
+I|13|menus/build|mono
+I|14|menus/build-all|mono
+I|15|menus/cancel-build|mono
+I|16|menus/run|mono
+I|17|menus/create-database-tables|mono
+I|18|window-tools/properties|mono
+I|19|system/refresh|mono
+I|20|system/zoom-in|mono
+I|21|system/zoom-out|mono
+I|22|system/expand-content|mono
+I|23|window-tools/output|mono
+I|24|window-tools/toolbox|mono
+I|25|window-tools/error-list|mono
+I|26|window-tools/history|mono
+I|27|window-tools/preferences|mono
+I|28|window-tools/teamdev|mono
+I|29|window-tools/last-changes-view|mono
+I|30|window-tools/references|mono
+I|31|general/knowledge-base|cor
+I|32|system/plug-in|mono
+I|33|objects/diagram|cor
+I|34|window-tools/category-groups|mono
+I|35|window-tools/alphabetical-order|mono
+I|36|window-tools/filter|mono
+I|37|objects/folder|cor
+I|38|objects/folder-open|cor
+I|39|objects/module|cor
+I|40|objects/transaction|cor
+I|41|objects/procedure|cor
+I|42|objects/webpanel|cor
+I|43|objects/web-component|cor
+I|44|objects/masterpage|cor
+I|45|objects/structured-data-type|cor
+I|46|objects/domain|cor
+I|47|objects/attribute|cor
+I|48|objects/data-provider|cor
+I|49|objects/theme|cor
+I|50|objects/image|cor
+I|51|objects/table|cor
+I|52|objects/data-view|cor
+I|53|objects/data-selector|cor
+I|54|objects/external-object|cor
+I|55|objects/query|cor
+I|56|objects/menu|cor
+I|57|objects/menubar|cor
+I|58|objects/panel-for-sd|cor
+I|59|objects/work-panel|cor
+I|60|objects/category|cor
+I|61|objects/subtype-group|cor
+I|62|objects/document|cor
+I|63|objects/language|cor
+I|64|objects/dashboard|cor
+I|65|objects/super-app|cor
+I|66|objects/mini-app|cor
+I|67|objects/theme-for-sd|cor
+I|68|objects/stencil|cor
+I|69|objects/to-be-defined|cor
+I|70|patterns/work-with-web|cor
+I|71|patterns/structure|cor
+I|72|objects-parts/rules|cor
+I|73|objects-parts/events|cor
+I|74|objects-parts/conditions|cor
+I|75|objects-parts/variables|cor
+I|76|patterns/documentation|cor
+I|77|editing-structures/attribute-key|cor
+I|78|editing-structures/attribute-key-foreign|cor
+I|79|editing-structures/attribute-foreign|cor
+I|80|editing-structures/attribute-description|cor
+I|81|editing-structures/attribute-formula|cor
+I|82|editing-structures/attribute-inferred|cor
+I|83|editing-structures/attribute-subtype|cor
+I|84|editing-structures/attribute-redundant|cor
+I|85|editing-structures/attribute-image|cor
+I|86|gx-server/changes-commit-pending|cor
+I|87|gx-server/new|cor
+I|88|gx-server/delete|cor
+I|89|gx-server/conflict|cor
+I|90|gx-server/lock-by-user-changes|cor
+I|91|gx-server/lock-by-user-reserve|cor
+I|92|gx-server/lock-without-changes|cor
+I|93|system/text-compare|mono
+I|94|gx-test/result-ok|cor
+I|95|gx-test/result-warning|cor
+I|96|derived/status-error|cor
+I|97|derived/status-equal|cor
+I|98|derived/status-equal-warning|cor
+I|99|derived/status-notfound|cor
+I|100|gemini-tools/delete|mono
+I|101|general/postgre-sql|cor
+I|102|general/sql-server|cor
+I|103|general/csharp|cor
+I|104|general/java|cor
+I|105|patterns-default-associated/default-associated-modified|cor
+I|106|patterns-default-associated/default-associated-synchronized|cor
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionNewObject|0|menus/new-object|Barra/menus: Novo objeto
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|OpenObject|1|menus/open-object|Barra/menus: Abrir objeto
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionOpenKB|2|objects/knowledge-base|Barra/menus: Abrir KB
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionSave|3|menus/save|Barra/menus: Salvar
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionSaveAll|4|menus/save-all|Barra/menus: Salvar tudo
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionCut|5|menus/cut|Barra/menus: Recortar
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionCopy|6|menus/copy|Barra/menus: Copiar
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionPaste|7|menus/paste|Barra/menus: Colar
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionUndo|8|menus/undo|Barra/menus: Desfazer
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionRedo|9|menus/redo|Barra/menus: Refazer
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|UndoCloseDocument|10|menus/undo-close-object|Barra/menus: Reabrir objeto fechado
+M|Artech.Core.UI|Artech.Core.UI.Properties.Resources|ActionDelete|11|menus/delete|Barra/menus: Excluir
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionFind|12|menus/find|Barra/menus: Localizar
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ActionBuild|13|menus/build|Barra/menus: Build
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ActionBuildAll|14|menus/build-all|Barra/menus: Build All
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ActionCancelBuild|15|menus/cancel-build|Barra/menus: Cancelar build
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ActionRun|16|menus/run|Barra/menus: Run
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ActionCreateDatabaseTables|17|menus/create-database-tables|Barra/menus: Create Database Tables
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|Properties|18|window-tools/properties|Barra/menus: Propriedades
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|Refresh|19|system/refresh|Barra/menus: Atualizar
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionZoomIn|20|system/zoom-in|Barra/menus: Zoom +
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionZoomOut|21|system/zoom-out|Barra/menus: Zoom -
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionFullScreen|22|system/expand-content|Barra/menus: Tela cheia
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionPrint|-1|-|Barra/menus: Imprimir
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ActionPrintPreview|-1|-|Barra/menus: Visualizar impressao
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|Output|23|window-tools/output|Janelas: Output
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|Properties|18|window-tools/properties|Janelas: Properties
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|Toolbox|24|window-tools/toolbox|Janelas: Toolbox
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ErrorList|25|window-tools/error-list|Janelas: Error List
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|HistoryToolWindow|26|window-tools/history|Janelas: History
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Preferences|27|window-tools/preferences|Janelas: Preferences
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|TeamDevelopmentIcon|28|window-tools/teamdev|Janelas: Team Development
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|LatestChangesView|29|window-tools/last-changes-view|Janelas: Latest Changes
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|CrossReference|30|window-tools/references|Janelas: Referencias
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|KBInformation|31|general/knowledge-base|Janelas: KB Information
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|ExtensionManager|32|system/plug-in|Janelas: Extensions Manager
+M|Artech.Core.UI|Artech.Core.UI.Resources.Images|NavigationDiagram|33|objects/diagram|Janelas: Navigation Diagram
+M|Artech.FrameworkDE|Artech.FrameworkDE.Resources.Images|PropertyGridCategorized|34|window-tools/category-groups|Properties: Por categoria
+M|Artech.FrameworkDE|Artech.FrameworkDE.Resources.Images|PropertyGridSorted|35|window-tools/alphabetical-order|Properties: Alfabetico
+M|Artech.FrameworkDE|Artech.FrameworkDE.Resources.Images|PropertyGridModified|36|window-tools/filter|Properties: So modificadas
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Folder|37|objects/folder|KB Explorer: Pasta
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|FolderOpen|38|objects/folder-open|KB Explorer: Pasta aberta
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectModule|39|objects/module|KB Explorer: Modulo
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectTransaction|40|objects/transaction|KB Explorer: Transaction
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectProcedure|41|objects/procedure|KB Explorer: Procedure
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectWebpanel|42|objects/webpanel|KB Explorer: Web Panel
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectWebpanel_WebComponent|43|objects/web-component|KB Explorer: Web Component
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectWebpanel_MasterPage|44|objects/masterpage|KB Explorer: Master Page
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectStructureDataType|45|objects/structured-data-type|KB Explorer: SDT
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Domain|46|objects/domain|KB Explorer: Domain
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectAttribute|47|objects/attribute|KB Explorer: Attribute
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectDataProvider|48|objects/data-provider|KB Explorer: Data Provider
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectTheme|49|objects/theme|KB Explorer: Theme
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectImage|50|objects/image|KB Explorer: Image
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectTable|51|objects/table|KB Explorer: Table
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectDataView|52|objects/data-view|KB Explorer: Data View
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectDataSelector|53|objects/data-selector|KB Explorer: Data Selector
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectExternalObject|54|objects/external-object|KB Explorer: External Object
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectQuery|55|objects/query|KB Explorer: Query
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectMenu|56|objects/menu|KB Explorer: Menu
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectMenuBar|57|objects/menubar|KB Explorer: Menu Bar
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectSDPanel|58|objects/panel-for-sd|KB Explorer: Panel (SD)
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectWorkpanel|59|objects/work-panel|KB Explorer: Work Panel
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectCategory|60|objects/category|KB Explorer: Category
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectSubtypeGroup|61|objects/subtype-group|KB Explorer: Subtype Group
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectDocumentation|62|objects/document|KB Explorer: Documentation
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectLanguage|63|objects/language|KB Explorer: Language
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectDashboard|64|objects/dashboard|KB Explorer: Dashboard
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectSuperApp|65|objects/super-app|KB Explorer: Super App
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectMiniApp|66|objects/mini-app|KB Explorer: Mini App
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectTheme_SD|67|objects/theme-for-sd|KB Explorer: Theme (SD)
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Stencil|68|objects/stencil|KB Explorer: Stencil
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectToBeDefined|69|objects/to-be-defined|KB Explorer: To be defined
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|PatternWorkWithForWeb|70|patterns/work-with-web|KB Explorer: Work With (web)
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectPartStructure|71|patterns/structure|Partes do objeto: Structure
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectPartRules|72|objects-parts/rules|Partes do objeto: Rules
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectPartEvents|73|objects-parts/events|Partes do objeto: Events
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectPartConditions|74|objects-parts/conditions|Partes do objeto: Conditions
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectPartVariable|75|objects-parts/variables|Partes do objeto: Variables
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectPartDocumentation|76|patterns/documentation|Partes do objeto: Documentation
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectPartLayout|-1|-|Partes do objeto: Layout / Web Form
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectPartSource|-1|-|Partes do objeto: Source
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeKey|77|editing-structures/attribute-key|Structure/Variables: Atributo chave
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeKeyForeign|78|editing-structures/attribute-key-foreign|Structure/Variables: Chave estrangeira
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeForeign|79|editing-structures/attribute-foreign|Structure/Variables: Atributo estrangeiro
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeDescription|80|editing-structures/attribute-description|Structure/Variables: Descricao
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeFormula|81|editing-structures/attribute-formula|Structure/Variables: Formula
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeInferred|82|editing-structures/attribute-inferred|Structure/Variables: Inferido
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeSubtype|83|editing-structures/attribute-subtype|Structure/Variables: Subtipo
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeRedundant|84|editing-structures/attribute-redundant|Structure/Variables: Redundante
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|AttributeImage|85|editing-structures/attribute-image|Structure/Variables: Imagem
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Variable|75|objects-parts/variables|Structure/Variables: Variavel
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|StructureLevel|-1|-|Structure/Variables: Nivel
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Datatype_Character|-1|-|Structure/Variables: Tipo Character
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|TActionCommit|86|gx-server/changes-commit-pending|Team Development: Commit
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|Inserted|87|gx-server/new|Team Development: Inserido
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|Deleted|88|gx-server/delete|Team Development: Excluido
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|Conflicted|89|gx-server/conflict|Team Development: Conflito
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|LockByUserChanges|90|gx-server/lock-by-user-changes|Team Development: Lock c/ alteracoes
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|LockByUserReserve|91|gx-server/lock-by-user-reserve|Team Development: Lock reservado
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|LockWithoutChanges|92|gx-server/lock-without-changes|Team Development: Lock sem alteracoes
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|Filter|36|window-tools/filter|Team Development: Filtro
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|History|26|window-tools/history|Team Development: Historico
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|Refresh|19|system/refresh|Team Development: Atualizar
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|Merge|-1|-|Team Development: Merge
+M|Artech.Packages.TeamDevClient.UI|Artech.Packages.TeamDevClient.UI.Resources.Images|ShowDifferences|93|system/text-compare|Team Development: Mostrar diferencas
+M|Artech.Core.UI|Artech.Core.UI.Properties.Resources|StatusOK_small|94|gx-test/result-ok|Output/status: OK
+M|Artech.Core.UI|Artech.Core.UI.Properties.Resources|StatusWarning_small|95|gx-test/result-warning|Output/status: Aviso
+M|Artech.Core.UI|Artech.Core.UI.Properties.Resources|StatusError_small|96|derived/status-error|Output/status: Erro
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|StatusOk|94|gx-test/result-ok|Status (Navigation/Impact): OK
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|StatusWarning|95|gx-test/result-warning|Status (Navigation/Impact): Aviso
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|StatusError|96|derived/status-error|Status (Navigation/Impact): Erro
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|StatusEqual|97|derived/status-equal|Status (Navigation/Impact): Igual (sem geracao)
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|StatusEqualWarning|98|derived/status-equal-warning|Status (Navigation/Impact): Igual com aviso
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|StatusNotFound|99|derived/status-notfound|Status (Navigation/Impact): Especificacao pendente
+M|Artech.Core.UI|Artech.Core.UI.Properties.Resources|StatusEqual|97|derived/status-equal|Status (Navigation/Impact): Igual (Core.UI)
+M|Artech.Core.UI|Artech.Core.UI.Properties.Resources|StatusEqualWarning|98|derived/status-equal-warning|Status (Navigation/Impact): Igual com aviso (Core.UI)
+M|Artech.Core.UI|Artech.Core.UI.Properties.Resources|StatusError|96|derived/status-error|Status (Navigation/Impact): Erro (Core.UI)
+M|Artech.Core.UI|Artech.Core.UI.Properties.Resources|StatusWarning|95|gx-test/result-warning|Status (Navigation/Impact): Aviso (Core.UI)
+M|Artech.Packages.GenexusUI|Artech.Packages.Genexus.UI.Properties.Resources|StatusOk_small|94|gx-test/result-ok|Status (Navigation/Impact): OK (pacote GeneXus)
+M|Artech.Packages.GenexusUI|Artech.Packages.Genexus.UI.Properties.Resources|StatusWarning_small|95|gx-test/result-warning|Status (Navigation/Impact): Aviso (pacote GeneXus)
+M|Artech.Packages.GenexusUI|Artech.Packages.Genexus.UI.Properties.Resources|StatusError_small|96|derived/status-error|Status (Navigation/Impact): Erro (pacote GeneXus)
+M|Artech.Core.UI|Artech.Core.UI.Controls.ReportView|errorStatus.Image|96|derived/status-error|Status (Navigation/Impact): Filtro erros (barra)
+M|Artech.Core.UI|Artech.Core.UI.Controls.ReportView|sucessStatus.Image|94|gx-test/result-ok|Status (Navigation/Impact): Filtro sucesso (barra)
+M|Artech.Core.UI|Artech.Core.UI.Controls.ReportView|tmiOnlyUnchanged.Image|97|derived/status-equal|Status (Navigation/Impact): So sem mudanca (menu)
+M|Artech.Core.UI|Artech.Core.UI.Controls.GxOutput|btnClear.Image|100|gemini-tools/delete|Output/status: Limpar (Output)
+M|Artech.Core.UI|Artech.Core.UI.Controls.GxOutput|saveLogButton.Image|3|menus/save|Output/status: Salvar log (Output)
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|DBMS_PostgreSQL|101|general/postgre-sql|Output/status: PostgreSQL
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|DBMS_SQLServer|102|general/sql-server|Output/status: SQL Server
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Platform_CSharp|103|general/csharp|Output/status: C#
+M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Platform_Java|104|general/java|Output/status: Java

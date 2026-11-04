@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Testa as operacoes do instalador (Operacoes.cs) numa arvore falsa do GeneXus (roda no Linux/box ou no Windows). -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CA1416;SYSLIB0014</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+    <Compile Include="Program.cs;../../installer/Operacoes.cs;../../src/Nucleo/Produto.cs;../../src/Nucleo/Compat.cs;../../src/Nucleo/Tema.cs" />
+    <EmbeddedResource Include="../../bin/GxDarkTheme.dll" LogicalName="payload.GxDarkTheme.dll" />
+    <EmbeddedResource Include="../../LICENSE" LogicalName="payload.LICENSE.txt" />
+    <EmbeddedResource Include="../../THIRD-PARTY-NOTICES.md" LogicalName="payload.THIRD-PARTY-NOTICES.md" />
+    <EmbeddedResource Include="../../resources/icons/NOTICE.txt" LogicalName="payload.NOTICE-Mercury.txt" />
+    <EmbeddedResource Include="../../LEIA-ME.md" LogicalName="payload.LEIA-ME.md" />
+  </ItemGroup>
+</Project>
