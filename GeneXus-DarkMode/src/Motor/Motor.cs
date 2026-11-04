@@ -662,6 +662,7 @@ namespace GxDarkTheme
         {
             if (inPass) return;
             try { ToggleButton.Ensure(); Housekeeping(); } catch { }
+            try { RestosPass(); } catch { }
             if (!On) { LightPass(false); return; }
             inPass = true;
             int before = themedCount;
@@ -747,6 +748,7 @@ namespace GxDarkTheme
             try { SmartGrid(c); } catch { }
             if (c is ListView) { try { LvDark.Attach((ListView)c); } catch (Exception ex) { LogOnce("lvdark", "ListView escura: " + ex.GetType().Name + ": " + ex.Message); } }
             try { Extra(c); } catch { }
+            try { RestosVisit(c); } catch { }
             if (IconSwap.Active) { try { IconSwap.Visit(c, !known || passCount % 15 == 0); } catch { } }
             if (!known || passCount % 5 == 0) { try { ContrastFix(c); } catch { } try { GlyphFix(c); } catch { } }
             string tn = c.GetType().FullName;
@@ -1385,6 +1387,7 @@ namespace GxDarkTheme
                 Type t3 = typeof(Infragistics.Win.Appearance).Assembly.GetType("Infragistics.Win.Office2003ColorTable");
                 if (t3 != null) nl += LineColors(t3);
                 if (!igLogged) { igLogged = true; Log("Infragistics Office2010ColorTable: " + n + " cores de menu/hover ajustadas; botoes planos (hover/pressionado/marcado, sem brilho) Office2010/2007: " + nb + " cores; linhas/cantos/alca das barras suavizados: " + nl + " cores"); }
+                RestosDaTabela();   // o que sobrou claro na coluna Black (RestosClaros.cs)
             }
             catch (Exception ex) { LogOnce("igct", "Office2010ColorTable: " + ex.Message); }
         }
