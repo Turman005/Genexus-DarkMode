@@ -1,4 +1,4 @@
-﻿// GxDarkTheme - restos claros da moldura e janelas que ainda saiam claras.
+﻿﻿// GxDarkTheme - restos claros da moldura e janelas que ainda saiam claras.
 // Porte de correcoes do Xpz.Dark (Filipe Castro, 04/11), achadas com um censo das bordas de cada controle
 // (foto da janela + quem pinta cada linha clara) e testadas no GeneXus 18 U14.
 //   - Tabelas globais Office2007/2010 da Infragistics: o que sobra de claro na coluna Black.
@@ -111,7 +111,6 @@ namespace GxDarkTheme
             if (tc != null) MolduraDasAbas.Ligar(tc);
             ComboBox cb = c as ComboBox;
             if (cb != null) TextoDoCombo(cb);
-            PinoDaGrade.Visitar(c);
             TelaDesenhada.Visitar(c);
         }
 
@@ -147,7 +146,6 @@ namespace GxDarkTheme
                 CabecalhoArvore.Devolver();
                 PainelDeConteudo.Devolver();
                 TelaDesenhada.Devolver();
-                PinoDaGrade.Devolver();
             }
             else MenusDeContexto.Ligar();
         }
@@ -287,84 +285,6 @@ namespace GxDarkTheme
             }
             catch (Exception ex) { falhou = true; DarkEngine.Log("Contorno de 1px desligado: " + ex.GetType().Name + ": " + ex.Message); }
             finally { if (dc != IntPtr.Zero) ReleaseDC(Handle, dc); }
-        }
-    }
-
-    // =====================================================================
-    //  Pino das grades UltraGrid (coluna "fixar" do Work With Objects)
-    // =====================================================================
-    /// <summary>
-    /// As imagens padrao do pino (FixedRowOn/Off, FixedHeaderOn/Off: 9x9) sao um quadrado BRANCO opaco com o
-    /// traco preto. No escuro sobrava o traco escuro, quase invisivel. Copia com fundo transparente e traco
-    /// na cor de texto do tema; no modo claro voltam as originais. Por reflexao: a UltraWinGrid nao e referenciada.
-    /// </summary>
-    internal static class PinoDaGrade
-    {
-        static readonly string[] Props = { "FixedRowOnImage", "FixedRowOffImage", "FixedHeaderOnImage", "FixedHeaderOffImage" };
-        static readonly Dictionary<object, Image[]> originais = new Dictionary<object, Image[]>();
-        static readonly Dictionary<Image, Image> claras = new Dictionary<Image, Image>();
-        static int corDasClaras;
-        static bool falhou;
-
-        static bool EhGrade(Type t)
-        {
-            for (Type b = t; b != null; b = b.BaseType) if (b.FullName == "Infragistics.Win.UltraWinGrid.UltraGridBase") return true;
-            return false;
-        }
-
-        public static void Visitar(Control c)
-        {
-            if (falhou || !DarkEngine.On || !EhGrade(c.GetType())) return;
-            try
-            {
-                object lay = c.GetType().GetProperty("DisplayLayout").GetValue(c, null);
-                if (lay == null) return;
-                if (corDasClaras != DarkEngine.Fg.ToArgb()) { claras.Clear(); corDasClaras = DarkEngine.Fg.ToArgb(); }   // troca de tema
-                Image[] orig;
-                if (!originais.TryGetValue(lay, out orig))
-                {
-                    orig = new Image[Props.Length];
-                    for (int i = 0; i < Props.Length; i++) orig[i] = lay.GetType().GetProperty(Props[i]).GetValue(lay, null) as Image;
-                    originais[lay] = orig;
-                }
-                for (int i = 0; i < Props.Length; i++)
-                {
-                    if (orig[i] == null) continue;
-                    PropertyInfo p = lay.GetType().GetProperty(Props[i]);
-                    Image nova = Clara(orig[i]);
-                    if (!ReferenceEquals(p.GetValue(lay, null), nova)) p.SetValue(lay, nova, null);
-                }
-            }
-            catch (Exception ex) { falhou = true; DarkEngine.Log("Pino das grades desligado: " + ex.GetType().Name + ": " + ex.Message); }
-        }
-
-        public static void Devolver()
-        {
-            if (originais.Count == 0) return;
-            foreach (KeyValuePair<object, Image[]> kv in originais)
-                for (int i = 0; i < Props.Length; i++)
-                    try { if (kv.Value[i] != null) kv.Key.GetType().GetProperty(Props[i]).SetValue(kv.Key, kv.Value[i], null); } catch { }
-            originais.Clear();
-        }
-
-        static Image Clara(Image o)
-        {
-            Image r;
-            if (claras.TryGetValue(o, out r)) return r;
-            Bitmap src = new Bitmap(o), dst = new Bitmap(o.Width, o.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Color fg = DarkEngine.Fg;
-            for (int x = 0; x < src.Width; x++)
-                for (int y = 0; y < src.Height; y++)
-                {
-                    Color p = src.GetPixel(x, y);
-                    int luz = (p.R * 299 + p.G * 587 + p.B * 114) / 1000;
-                    // fundo branco e transparente somem; o traco (escuro) vira a cor de texto do tema
-                    if (p.A < 100 || luz > 200) dst.SetPixel(x, y, Color.Transparent);
-                    else dst.SetPixel(x, y, Color.FromArgb(p.A, fg));
-                }
-            src.Dispose();
-            claras[o] = dst;
-            return dst;
         }
     }
 

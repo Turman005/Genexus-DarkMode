@@ -146,6 +146,7 @@ M|Artech.Core.UI|Artech.Core.UI.Resources.Images|NavigationDiagram|33|objects/di
 M|Artech.FrameworkDE|Artech.FrameworkDE.Resources.Images|PropertyGridCategorized|34|window-tools/category-groups|Properties: Por categoria
 M|Artech.FrameworkDE|Artech.FrameworkDE.Resources.Images|PropertyGridSorted|35|window-tools/alphabetical-order|Properties: Alfabetico
 M|Artech.FrameworkDE|Artech.FrameworkDE.Resources.Images|PropertyGridModified|36|window-tools/filter|Properties: So modificadas
+M|Artech.FrameworkDE|Artech.FrameworkDE.Resources.Images|PanePinned|-1|-|Work With Objects: Pino de objeto fixado
 M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|Folder|37|objects/folder|KB Explorer: Pasta
 M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|FolderOpen|38|objects/folder-open|KB Explorer: Pasta aberta
 M|Artech.Genexus.UI.Resources|Artech.Genexus.UI.Resources.Images|ObjectModule|39|objects/module|KB Explorer: Modulo
