@@ -178,6 +178,9 @@ namespace GxDarkTheme
             ToolStripMenuItem modo = new ToolStripMenuItem("Modo escuro ligado") { Checked = DarkEngine.On, ShortcutKeyDisplayString = "Ctrl+Shift+F12" };
             modo.Click += delegate { DarkEngine.Toggle(); };
             cm.Items.Add(modo);
+            ToolStripMenuItem meu = new ToolStripMenuItem("Montar meu tema...");
+            meu.Click += delegate { MeuTema.Exibir(dono.FindForm()); };
+            cm.Items.Add(meu);
             ToolStripMenuItem cfg = new ToolStripMenuItem("Configurações...");
             cfg.Click += delegate { Configuracao.Exibir(dono.FindForm()); };
             cm.Items.Add(cfg);

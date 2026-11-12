@@ -346,6 +346,7 @@ namespace GxDarkTheme.Instalador
             for (int i = 0; i < Temas.Todos.Count; i++)
             {
                 Tema tm = Temas.Todos[i];
+                if (tm.IsPersonalizado) continue;   // "Meu tema" e montado na tela de configuracoes da IDE; se ja for o tema gravado, fica mantido
                 g.RowCount++; g.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                 Panel amostra = new Panel { Size = new Size(lado, lado), BackColor = tm.M(Color.FromArgb(36, 45, 60)), Margin = new Padding(0, 5, 8, 5), Anchor = AnchorStyles.Top };
                 Panel acento = new Panel { Size = new Size(lado / 2, lado / 2), Location = new Point(lado / 4, lado / 4), BackColor = tm.M(Color.FromArgb(44, 141, 206)) };
@@ -363,7 +364,7 @@ namespace GxDarkTheme.Instalador
             Linha(t, new Panel { Height = 1, Margin = Padding.Empty }, true);
             Mostrar(t);
             // marca depois de tudo montado (marcar antes de o radio estar no container nao e confiavel)
-            foreach (RadioButton r in radios) if ((string)r.Tag == atual) r.Checked = true;
+            foreach (RadioButton r in radios) if (r != null && (string)r.Tag == atual) r.Checked = true;
         }
 
         void PagResumo()

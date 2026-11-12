@@ -58,6 +58,12 @@ namespace GxDarkTheme
                 if (!carregando) DarkEngine.SetTheme(t.Id, true);
             };
 
+            Button meu = new Button { Text = "Montar meu tema (cores do editor, fundo, destaque)...", AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                                      FlatStyle = FlatStyle.Flat, UseVisualStyleBackColor = false, Padding = new Padding(u / 2, 0, u / 2, 0),
+                                      MinimumSize = new Size(0, u + u / 2 + 4), Anchor = AnchorStyles.Left | AnchorStyles.Top, Margin = new Padding(0, 0, 0, u / 2) };
+            meu.Click += delegate { MeuTema.Exibir(this); };
+            Linha(meu, 2);
+
             chkEscuro = Caixa("Modo escuro ligado agora (Ctrl+Shift+F12 ou clique no sol/lua)");
             chkEscuro.CheckedChanged += delegate { if (!carregando && chkEscuro.Checked != DarkEngine.On) DarkEngine.SetMode(chkEscuro.Checked, true); };
 

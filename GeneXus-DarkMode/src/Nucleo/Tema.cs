@@ -19,11 +19,14 @@ namespace GxDarkTheme
     {
         public string Id, Nome, Descricao;
         public double Matiz, Sat, MatizDestaque, SatDestaque;
-        public bool IsNext;
+        public bool IsNext, IsPersonalizado;
         // sintaxe: texto, palavra, controle, tipo, funcao, variavel, string, numero, comentario (null = sintaxe original do GxDarkTheme)
         public Dictionary<string, Color> Sintaxe;
         readonly Dictionary<int, int> cache = new Dictionary<int, int>();
         public override string ToString() { return Nome; }
+
+        // o "Meu tema" muda de parametros com a IDE aberta: as cores ja calculadas deixam de valer
+        public void LimparCache() { lock (cache) cache.Clear(); }
 
         // paleta Next de referencia (fundo/texto ~ matiz 216, sat ~0.25; destaque #2C8DCE ~ matiz 204-207, sat ~0.65-0.70)
         const double NextSat = 0.25, NextHueAcc = 207, NextSatAcc = 0.70;
@@ -181,7 +184,48 @@ namespace GxDarkTheme
                 S("D9D7CE", "FFB454", "F29668", "E6B673", "FFD173", "95E6CB", "AAD94C", "D2A6FF", "8A909A")));
             Todos.Add(Novo("oliva", "Oliva", "Verde escuro suave, tons terrosos.", 140, 0.10, 145, 0.55,
                 S("D3C6AA", "A7C080", "E69875", "83C092", "DBBC7F", "7FBBB3", "D699B6", "E67E80", "8F9A86")));
+            // "Meu tema": comeca igual ao Ardosia; a DLL carrega as cores do usuario (GxDarkTheme.settings, chaves meu_*)
+            Personalizado = Novo("personalizado", "Meu tema", "Suas cores: tom, destaque e sintaxe (Configurações > Meu tema).", 216, 0.26, 205, 0.70,
+                S("D4D4D4", "569CD6", "C586C0", "4EC9B0", "DCDCAA", "9CDCFE", "CE9178", "B5CEA8", "6A9955"));
+            Personalizado.IsPersonalizado = true;
+            Todos.Add(Personalizado);
         }
+
+        public static readonly Tema Personalizado;
+        public static readonly string[] NomesTokens = { "Texto", "Palavra reservada", "Palavra-chave", "Tipo / definição", "Função", "Variável", "Texto entre aspas", "Número", "Comentário" };
+
+        // cor de fundo escolhida -> tom (matiz/saturacao) do tema; o brilho continua o do GeneXus Next (ver M()).
+        // cor de destaque escolhida -> matiz/saturacao do destaque.
+        public static void ConfigurarPersonalizado(Color fundo, Color destaque, Dictionary<string, Color> sintaxe)
+        {
+            Preencher(Personalizado, fundo, destaque, sintaxe);
+        }
+
+        // tema avulso com as mesmas contas (previa da tela "Meu tema", sem mexer no tema em uso)
+        public static Tema Previa(Color fundo, Color destaque, Dictionary<string, Color> sintaxe)
+        {
+            Tema t = new Tema { Id = "previa", Nome = "Prévia", Sintaxe = Personalizado.Sintaxe };
+            Preencher(t, fundo, destaque, sintaxe);
+            return t;
+        }
+
+        static void Preencher(Tema t, Color fundo, Color destaque, Dictionary<string, Color> sintaxe)
+        {
+            double h, s, l;
+            Cor.ToHsl(fundo, out h, out s, out l);
+            int chroma = Math.Max(fundo.R, Math.Max(fundo.G, fundo.B)) - Math.Min(fundo.R, Math.Min(fundo.G, fundo.B));
+            t.Matiz = h; t.Sat = chroma < 5 ? 0.0 : Math.Min(0.85, s);
+            Cor.ToHsl(destaque, out h, out s, out l);
+            t.MatizDestaque = h; t.SatDestaque = Math.Max(0.30, Math.Min(1.0, s));
+            Dictionary<string, Color> d = new Dictionary<string, Color>();
+            foreach (string k in Tokens) d[k] = sintaxe != null && sintaxe.ContainsKey(k) ? sintaxe[k] : t.Sintaxe[k];
+            t.Sintaxe = d;
+            t.LimparCache();
+        }
+
+        // cores de partida do "Meu tema" (o que o Configurar recebe quando o usuario nunca escolheu nada)
+        public static Color FundoPadrao { get { return Color.FromArgb(17, 21, 28); } }      // #11151C (editor do Next)
+        public static Color DestaquePadrao { get { return Color.FromArgb(44, 141, 206); } } // #2C8DCE (destaque do Next)
 
         static Tema Novo(string id, string nome, string desc, double matiz, double sat, double acento, double satAc, Dictionary<string, Color> s)
         {
