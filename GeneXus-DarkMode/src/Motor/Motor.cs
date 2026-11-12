@@ -1733,7 +1733,13 @@ namespace GxDarkTheme
 
         // ---------- Navegadores embutidos ----------
         static string darkJsCache;
-        static string DarkJs { get { string j = darkJsCache; if (j == null) darkJsCache = j = TH(DarkJsNext); return j; } }
+        static string DarkJs { get { string j = darkJsCache; if (j == null) darkJsCache = j = CoresDoOutput(TH(DarkJsNext)); return j; } }
+        // cores das linhas do Output (Meu tema; os outros temas usam o padrao): marcadores @@O_<id>@@ do mapa MO abaixo
+        static string CoresDoOutput(string js)
+        {
+            foreach (string[] o in Temas.OutputTokens) js = js.Replace("@@O_" + o[0] + "@@", CorTexto(Temas.OutputCor(TemaAtual, o[0])).Substring(1));
+            return js;
+        }
         const string DarkJsNext =
             "(function(){try{" +
             "var u=(location.href||'').toLowerCase();" +
@@ -1745,8 +1751,9 @@ namespace GxDarkTheme
             "function gxMon(){try{if(!window.monaco||!monaco.editor||!monaco.editor.defineTheme)return false;if(window.__gxMonacoDark)return true;window.__gxMonacoDark=1;" +
             "var C={'editor.background':'#11151C','editor.foreground':'#DCE2EB','editorGutter.background':'#11151C','minimap.background':'#11151C','editor.lineHighlightBackground':'#1B2433','editor.lineHighlightBorder':'#1B2433','editor.selectionBackground':'#264F78','editor.inactiveSelectionBackground':'#2C3C50','editorWidget.background':'#181F2A','editorWidget.border':'#333D47','input.background':'#1F2734','scrollbarSlider.background':'#79797966','scrollbarSlider.hoverBackground':'#646464B3','scrollbarSlider.activeBackground':'#BFBFBF66','editorOverviewRuler.border':'#11151C','editorCursor.foreground':'#F0F4FA','editorLink.activeForeground':'#5BA7FF'};" +
             "var M={'008800':'6A9955','ff0000':'F48771','000000':'DCE2EB','000080':'569CD6','0000ff':'569CD6','800000':'CE9178','a31515':'CE9178','808080':'A0A7B2','808000':'D7BA7D','ffa500':'FFA500'};" +
+            "var MO={'808080':'@@O_info@@','ff0000':'@@O_erro@@','ffa500':'@@O_aviso@@','a5ff00':'@@O_destaque@@','008800':'@@O_secao@@'};var MM=/outputpane/.test(u)?MO:M;" +
             "function dk(d){var o={base:'vs-dark',inherit:true,rules:[],colors:{}};d=d||{};var k;for(k in C)o.colors[k]=C[k];" +
-            "(d.rules||[]).forEach(function(r){var n={};for(var q in r)n[q]=r[q];if(n.foreground){var f=String(n.foreground).replace('#','').toLowerCase();if(M[f])n.foreground=M[f];}if(n.background){var b=String(n.background).replace('#','');if(b.length>=6){var R=parseInt(b.substr(0,2),16),G=parseInt(b.substr(2,2),16),B=parseInt(b.substr(4,2),16);if(0.299*R+0.587*G+0.114*B>150)delete n.background;}}o.rules.push(n);});return o;}" +
+            "(d.rules||[]).forEach(function(r){var n={};for(var q in r)n[q]=r[q];if(n.foreground){var f=String(n.foreground).replace('#','').toLowerCase();if(MM[f])n.foreground=MM[f];}if(n.background){var b=String(n.background).replace('#','');if(b.length>=6){var R=parseInt(b.substr(0,2),16),G=parseInt(b.substr(2,2),16),B=parseInt(b.substr(4,2),16);if(0.299*R+0.587*G+0.114*B>150)delete n.background;}}o.rules.push(n);});return o;}" +
             "var od=monaco.editor.defineTheme,os=monaco.editor.setTheme;window.__gxOD=od;window.__gxOS=os;var D=window.__gxDefs;for(var dn in D){try{od.call(monaco.editor,dn,dk(D[dn]));}catch(e){}}" +
             "monaco.editor.defineTheme=function(n,d){window.__gxDefs[n]=d;try{return od.call(monaco.editor,n,dk(d));}catch(e){return od.call(monaco.editor,n,d);}};" +
             "monaco.editor.setTheme=function(n){window.__gxLast=n;if(n==='vs')n='vs-dark';return os.call(monaco.editor,n);};" +

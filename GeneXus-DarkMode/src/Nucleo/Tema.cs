@@ -22,6 +22,10 @@ namespace GxDarkTheme
         public bool IsNext, IsPersonalizado;
         // sintaxe: texto, palavra, controle, tipo, funcao, variavel, string, numero, comentario (null = sintaxe original do GxDarkTheme)
         public Dictionary<string, Color> Sintaxe;
+        // so no "Meu tema": cor Next de referencia (ARGB opaco) -> cor exata escolhida pelo usuario (null = tudo pela conta M)
+        public Dictionary<int, Color> Fixas;
+        // so no "Meu tema": cores das linhas do Output (chaves de Temas.OutputTokens; null = padrao)
+        public Dictionary<string, Color> Output;
         readonly Dictionary<int, int> cache = new Dictionary<int, int>();
         public override string ToString() { return Nome; }
 
@@ -35,6 +39,9 @@ namespace GxDarkTheme
         {
             if (IsNext || c.A == 0) return c;
             int k = c.ToArgb() | unchecked((int)0xFF000000);
+            Dictionary<int, Color> fx = Fixas;
+            Color f;
+            if (fx != null && fx.TryGetValue(k, out f)) return Color.FromArgb(c.A, f.R, f.G, f.B);
             int v;
             lock (cache)
             {
@@ -95,6 +102,22 @@ namespace GxDarkTheme
                 int n = M(c | unchecked((int)0xFF000000));
                 px[i] = (a << 24) | (n & 0xFFFFFF);
             }
+        }
+    }
+
+    // o que o usuario escolheu na janela "Meu tema" (Fixas e Output: so as que ele marcou; o resto segue a conta/padrao)
+    public sealed class Escolha
+    {
+        public Color Fundo, Destaque;
+        public Dictionary<string, Color> Sintaxe = new Dictionary<string, Color>();
+        public Dictionary<string, Color> Fixas = new Dictionary<string, Color>();
+        public Dictionary<string, Color> Output = new Dictionary<string, Color>();
+
+        public Escolha Copia()
+        {
+            Escolha e = new Escolha { Fundo = Fundo, Destaque = Destaque };
+            e.Sintaxe = new Dictionary<string, Color>(Sintaxe); e.Fixas = new Dictionary<string, Color>(Fixas); e.Output = new Dictionary<string, Color>(Output);
+            return e;
         }
     }
 
@@ -194,32 +217,71 @@ namespace GxDarkTheme
         public static readonly Tema Personalizado;
         public static readonly string[] NomesTokens = { "Texto", "Palavra reservada", "Palavra-chave", "Tipo / definição", "Função", "Variável", "Texto entre aspas", "Número", "Comentário" };
 
-        // cor de fundo escolhida -> tom (matiz/saturacao) do tema; o brilho continua o do GeneXus Next (ver M()).
-        // cor de destaque escolhida -> matiz/saturacao do destaque.
-        public static void ConfigurarPersonalizado(Color fundo, Color destaque, Dictionary<string, Color> sintaxe)
+        // areas com cor exata opcional no "Meu tema": id, cor de referencia do GeneXus Next, nome, tipo (f = fundo escuro, t = texto claro).
+        // A cor Next e a chave: tudo que o motor pinta com ela (WinForms, ISL, CSS das paginas, Monaco) passa a usar a cor escolhida.
+        public static readonly string[][] Areas =
         {
-            Preencher(Personalizado, fundo, destaque, sintaxe);
+            new[] { "editor",  "11151C", "Fundo do editor, Output e páginas", "f" },
+            new[] { "painel",  "181F2A", "Painéis, árvores e menus", "f" },
+            new[] { "barra",   "242D3C", "Barras, título e status", "f" },
+            new[] { "campo",   "1F2734", "Campos de texto", "f" },
+            new[] { "item",    "2C3C50", "Item selecionado e botões", "f" },
+            new[] { "selecao", "264F78", "Seleção de texto no editor", "f" },
+            new[] { "textoui", "DCE2EB", "Texto da interface", "t" },
+        };
+
+        // linhas do Output: id, cor padrao (a que o GxDarkTheme ja mostrava), nome
+        public static readonly string[][] OutputTokens =
+        {
+            new[] { "info",     "A0A7B2", "Informação" },
+            new[] { "erro",     "F48771", "Erro" },
+            new[] { "aviso",    "FFA500", "Aviso (warning)" },
+            new[] { "destaque", "A5FF00", "Mensagem de destaque" },
+            new[] { "secao",    "6A9955", "Início de seção (==== Build ...)" },
+        };
+
+        public static Color OutputCor(Tema t, string id)
+        {
+            if (t != null && t.Output != null && t.Output.ContainsKey(id)) return t.Output[id];
+            foreach (string[] o in OutputTokens) if (o[0] == id) return Cor.Hex(o[1]);
+            return Color.Gray;
+        }
+
+        // cor de fundo escolhida -> tom (matiz/saturacao) do tema; o brilho continua o do GeneXus Next (ver M()).
+        // cor de destaque escolhida -> matiz/saturacao do destaque. Fixas/Output: por cima da conta, so onde o usuario escolheu.
+        public static void ConfigurarPersonalizado(Escolha e)
+        {
+            Preencher(Personalizado, e);
         }
 
         // tema avulso com as mesmas contas (previa da tela "Meu tema", sem mexer no tema em uso)
-        public static Tema Previa(Color fundo, Color destaque, Dictionary<string, Color> sintaxe)
+        public static Tema Previa(Escolha e)
         {
             Tema t = new Tema { Id = "previa", Nome = "Prévia", Sintaxe = Personalizado.Sintaxe };
-            Preencher(t, fundo, destaque, sintaxe);
+            Preencher(t, e);
             return t;
         }
 
-        static void Preencher(Tema t, Color fundo, Color destaque, Dictionary<string, Color> sintaxe)
+        static void Preencher(Tema t, Escolha e)
         {
             double h, s, l;
-            Cor.ToHsl(fundo, out h, out s, out l);
-            int chroma = Math.Max(fundo.R, Math.Max(fundo.G, fundo.B)) - Math.Min(fundo.R, Math.Min(fundo.G, fundo.B));
+            Cor.ToHsl(e.Fundo, out h, out s, out l);
+            int chroma = Math.Max(e.Fundo.R, Math.Max(e.Fundo.G, e.Fundo.B)) - Math.Min(e.Fundo.R, Math.Min(e.Fundo.G, e.Fundo.B));
             t.Matiz = h; t.Sat = chroma < 5 ? 0.0 : Math.Min(0.85, s);
-            Cor.ToHsl(destaque, out h, out s, out l);
+            Cor.ToHsl(e.Destaque, out h, out s, out l);
             t.MatizDestaque = h; t.SatDestaque = Math.Max(0.30, Math.Min(1.0, s));
             Dictionary<string, Color> d = new Dictionary<string, Color>();
-            foreach (string k in Tokens) d[k] = sintaxe != null && sintaxe.ContainsKey(k) ? sintaxe[k] : t.Sintaxe[k];
-            t.Sintaxe = d;
+            foreach (string k in Tokens) d[k] = e.Sintaxe.ContainsKey(k) ? e.Sintaxe[k] : t.Sintaxe[k];
+            Dictionary<int, Color> fx = null;
+            foreach (string[] a in Areas)
+            {
+                if (!e.Fixas.ContainsKey(a[0])) continue;
+                if (fx == null) fx = new Dictionary<int, Color>();
+                Color c = e.Fixas[a[0]];
+                fx[Cor.Hex(a[1]).ToArgb()] = Color.FromArgb(255, c.R, c.G, c.B);
+            }
+            Dictionary<string, Color> o = e.Output.Count > 0 ? new Dictionary<string, Color>(e.Output) : null;
+            t.Sintaxe = d; t.Fixas = fx; t.Output = o;
             t.LimparCache();
         }
 

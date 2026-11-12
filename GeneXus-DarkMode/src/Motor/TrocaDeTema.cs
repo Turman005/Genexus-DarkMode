@@ -36,20 +36,67 @@ namespace GxDarkTheme
         }
 
         // ---- "Meu tema": cores do usuario (chaves meu_* do GxDarkTheme.settings) ----
-        public const string ChaveFundo = "meu_fundo", ChaveDestaque = "meu_destaque", PrefixoSintaxe = "meu_";
+        // chaves: meu_fundo, meu_destaque, meu_<token de sintaxe>, meu_fixa_<area> (vazia = automatica), meu_out_<linha do Output> (vazia = padrao)
+        public const string ChaveFundo = "meu_fundo", ChaveDestaque = "meu_destaque", PrefixoSintaxe = "meu_", PrefixoFixa = "meu_fixa_", PrefixoOutput = "meu_out_";
+
+        public delegate string LeitorChave(string chave);
+
+        // monta a escolha a partir de uma fonte de chaves (o settings ou um arquivo exportado)
+        public static Escolha LerEscolha(LeitorChave ler)
+        {
+            Escolha e = new Escolha();
+            Color c;
+            e.Fundo = LerCor(ler(ChaveFundo), out c) ? c : Temas.FundoPadrao;
+            e.Destaque = LerCor(ler(ChaveDestaque), out c) ? c : Temas.DestaquePadrao;
+            foreach (string k in Temas.Tokens) if (LerCor(ler(PrefixoSintaxe + k), out c)) e.Sintaxe[k] = c;
+            foreach (string[] a in Temas.Areas) if (LerCor(ler(PrefixoFixa + a[0]), out c) && CorFixaValida(a[3], c)) e.Fixas[a[0]] = c;
+            foreach (string[] o in Temas.OutputTokens) if (LerCor(ler(PrefixoOutput + o[0]), out c)) e.Output[o[0]] = c;
+            return e;
+        }
+
+        // todas as chaves da escolha (as automaticas/padrao saem vazias, para apagar o que havia antes)
+        public static List<KeyValuePair<string, string>> ChavesDaEscolha(Escolha e)
+        {
+            List<KeyValuePair<string, string>> l = new List<KeyValuePair<string, string>>();
+            l.Add(new KeyValuePair<string, string>(ChaveFundo, CorTexto(e.Fundo)));
+            l.Add(new KeyValuePair<string, string>(ChaveDestaque, CorTexto(e.Destaque)));
+            foreach (string k in Temas.Tokens) if (e.Sintaxe.ContainsKey(k)) l.Add(new KeyValuePair<string, string>(PrefixoSintaxe + k, CorTexto(e.Sintaxe[k])));
+            foreach (string[] a in Temas.Areas) l.Add(new KeyValuePair<string, string>(PrefixoFixa + a[0], e.Fixas.ContainsKey(a[0]) ? CorTexto(e.Fixas[a[0]]) : ""));
+            foreach (string[] o in Temas.OutputTokens) l.Add(new KeyValuePair<string, string>(PrefixoOutput + o[0], e.Output.ContainsKey(o[0]) ? CorTexto(e.Output[o[0]]) : ""));
+            return l;
+        }
+
+        // fundo fixo precisa ser escuro e texto fixo precisa ser claro: o motor decide "claro x escuro" pela luminosidade,
+        // e um fundo claro seria tratado como resto claro a escurecer de novo
+        public static bool CorFixaValida(string tipo, Color c) { return tipo == "t" ? Lum(c) >= 150 : Lum(c) <= 100; }
 
         static void CarregarPersonalizado()
         {
-            try
-            {
-                Dictionary<string, Color> s = new Dictionary<string, Color>();
-                foreach (string k in Temas.Tokens) { Color c; if (LerCor(SettingsValue(PrefixoSintaxe + k), out c)) s[k] = c; }
-                Color f, d;
-                if (!LerCor(SettingsValue(ChaveFundo), out f)) f = Temas.FundoPadrao;
-                if (!LerCor(SettingsValue(ChaveDestaque), out d)) d = Temas.DestaquePadrao;
-                Temas.ConfigurarPersonalizado(f, d, s);
-            }
+            try { Temas.ConfigurarPersonalizado(LerEscolha(SettingsValue)); }
             catch (Exception ex) { Log("Meu tema (carregar): " + ex.Message); }
+        }
+
+        // exportar/importar: arquivo texto simples "chave=valor" (as mesmas chaves meu_* do settings)
+        public static void ExportarEscolha(Escolha e, string arquivo)
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.AppendLine("; " + Produto.NomeExibicao + " - Meu tema (importe em Montar meu tema > Importar)");
+            foreach (KeyValuePair<string, string> kv in ChavesDaEscolha(e)) if (kv.Value.Length > 0) sb.AppendLine(kv.Key + "=" + kv.Value);
+            File.WriteAllText(arquivo, sb.ToString(), new System.Text.UTF8Encoding(false));
+        }
+
+        public static Escolha ImportarEscolha(string arquivo)
+        {
+            Dictionary<string, string> d = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (string raw in File.ReadAllLines(arquivo))
+            {
+                string l = raw.Trim();
+                if (l.Length == 0 || l[0] == ';' || l[0] == '#') continue;
+                int i = l.IndexOf('=');
+                if (i > 0) d[l.Substring(0, i).Trim()] = l.Substring(i + 1).Trim();
+            }
+            if (!d.ContainsKey(ChaveFundo)) throw new InvalidDataException("o arquivo não tem as cores de um Meu tema (falta " + ChaveFundo + ")");
+            return LerEscolha(delegate(string k) { string v; return d.TryGetValue(k, out v) ? v : null; });
         }
 
         public static bool LerCor(string v, out Color c)
@@ -66,17 +113,16 @@ namespace GxDarkTheme
         public static string CorTexto(Color c) { return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2"); }
 
         // grava as cores do "Meu tema" e, se ativar=true ou se ele ja for o tema em uso, aplica na IDE na hora
-        public static void SalvarPersonalizado(Color fundo, Color destaque, Dictionary<string, Color> sintaxe, bool ativar)
+        public static void SalvarPersonalizado(Escolha escolha, bool ativar)
         {
-            SettingsWrite(ChaveFundo, CorTexto(fundo));
-            SettingsWrite(ChaveDestaque, CorTexto(destaque));
-            foreach (string k in Temas.Tokens) if (sintaxe.ContainsKey(k)) SettingsWrite(PrefixoSintaxe + k, CorTexto(sintaxe[k]));
+            Escolha e = escolha.Copia();
+            foreach (KeyValuePair<string, string> kv in ChavesDaEscolha(e)) SettingsWrite(kv.Key, kv.Value);
             Tema t = Temas.Personalizado;
-            MethodInvoker cfg = delegate { Temas.ConfigurarPersonalizado(fundo, destaque, sintaxe); };
+            MethodInvoker cfg = delegate { Temas.ConfigurarPersonalizado(e); };
             if (ativar) SettingsWrite("tema", t.Id);
             if (!ativar && TemaAtual != t) { cfg(); RefreshThemeUi(); return; }
             Trocar(t, cfg);
-            Log("Meu tema salvo: fundo " + CorTexto(fundo) + ", destaque " + CorTexto(destaque));
+            Log("Meu tema salvo: fundo " + CorTexto(e.Fundo) + ", destaque " + CorTexto(e.Destaque) + ", " + e.Fixas.Count + " cor(es) exata(s), " + e.Output.Count + " cor(es) do Output");
         }
 
         // troca para o tema t; antes (opcional) muda os parametros do tema DEPOIS de a IDE voltar ao claro e ANTES de recalcular as cores
