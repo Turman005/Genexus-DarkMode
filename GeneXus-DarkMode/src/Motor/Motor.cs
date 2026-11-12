@@ -116,9 +116,18 @@ namespace GxDarkTheme
         }
 
         // dialogos de erro/excecao/feedback: nunca recolorir
+        // excecao: a caixa de mensagens do SQL Server (Microsoft.ExceptionMessageBox) e a que o GeneXus usa para as
+        // perguntas ("Do you want to save changes?", confirmacoes); so tem controles WinForms comuns (TableLayoutPanel, LinkLabel,
+        // Button, ToolStrip), entao segue o tema. Dialogos de erro/feedback/crash continuam fora.
+        static bool IsMessageBoxDoGeneXus(string n)
+        {
+            return n == "Microsoft.SqlServer.MessageBox.ExceptionMessageBoxForm" || n == "Microsoft.SqlServer.MessageBox.AdvancedInformation";
+        }
+
         static bool IsExcludedForm(Form f)
         {
             string n = f.GetType().FullName ?? "";
+            if (IsMessageBoxDoGeneXus(n)) return false;
             return n == "Artech.Core.UI.Dialogs.FeedbackDialog" || f is ThreadExceptionDialog ||
                    n.IndexOf("Feedback", StringComparison.OrdinalIgnoreCase) >= 0 || n.IndexOf("Exception", StringComparison.OrdinalIgnoreCase) >= 0 ||
                    n.IndexOf("ErrorDialog", StringComparison.OrdinalIgnoreCase) >= 0 || n.IndexOf("ErrorReport", StringComparison.OrdinalIgnoreCase) >= 0 ||
