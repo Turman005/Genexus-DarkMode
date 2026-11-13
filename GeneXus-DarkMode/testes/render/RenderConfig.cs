@@ -43,6 +43,8 @@ namespace GxDarkTheme
         }
     }
     public static class ToggleButton { public static void RefreshAll() { } }
+    // a janela "Meu tema" (src/Interface/MeuTema.cs) precisa do motor real; aqui so o botao que a abre
+    internal static class MeuTema { public static void Exibir(IWin32Window dono) { } }
 
     static class RenderConfig
     {
