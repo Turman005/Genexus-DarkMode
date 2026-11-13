@@ -109,23 +109,42 @@ namespace GxDarkTheme
             if (cp != null) PainelDeConteudo.Visitar(cp);
             TabControl tc = c as TabControl;
             if (tc != null) MolduraDasAbas.Ligar(tc);
-            ComboBox cb = c as ComboBox;
-            if (cb != null) TextoDoCombo(cb);
+            if (c is ComboBox || c is TreeView) TextoVigiado(c);
             TelaDesenhada.Visitar(c);
         }
 
         // Combo de eventos do editor (headerComboBox): o GeneXus devolve o texto PRETO ao trocar a lista, e a lista
         // aberta (desenhada pelo Windows com a cor de texto do combo) ficava preta no fundo escuro - so o item sob o
-        // mouse saia branco. Corrige na hora em que a cor volta (ForeColorChanged) e a cada passada.
-        static readonly HashSet<ComboBox> combosVigiados = new HashSet<ComboBox>();
-        static void TextoDoCombo(ComboBox cb)
+        // mouse saia branco. A arvore de Tools > Options (GxTreeView, desenho proprio OwnerDrawAll) mostrava o mesmo
+        // sintoma: fundo escuro e texto preto. Corrige na hora em que a cor volta (ForeColorChanged) e a cada passada.
+        static readonly HashSet<Control> textosVigiados = new HashSet<Control>();
+        static void TextoVigiado(Control c)
         {
             if (!On) return;
-            if (IsDarkText(cb.ForeColor)) cb.ForeColor = Fg;
-            if (combosVigiados.Add(cb))
+            Color antes = c.ForeColor;
+            TreeView arv = c as TreeView;
+            if (arv != null && arv.DrawMode != TreeViewDrawMode.Normal)
+                LogOnce("arvoredesenho:" + c.GetType().FullName + ":" + c.Name, "Arvore com desenho proprio: " + c.GetType().FullName + " '" + c.Name + "' DrawMode=" + arv.DrawMode + " ForeColor=" + CorTexto(antes) + " BackColor=" + CorTexto(c.BackColor));
+            if (IsDarkText(antes))
             {
-                cb.ForeColorChanged += delegate { try { if (On && IsDarkText(cb.ForeColor)) cb.ForeColor = Fg; } catch { } };
-                cb.Disposed += delegate { combosVigiados.Remove(cb); };
+                c.ForeColor = Fg;
+                TreeView tv = c as TreeView;
+                if (tv != null) LogOnce("arvoretexto:" + c.GetType().FullName, "Arvore com texto escuro (" + CorTexto(antes) + ", DrawMode=" + tv.DrawMode + ") clareada: " + c.GetType().FullName + " '" + c.Name + "'");
+            }
+            if (textosVigiados.Add(c))
+            {
+                c.ForeColorChanged += delegate
+                {
+                    try
+                    {
+                        Color v = c.ForeColor;
+                        if (!On || !IsDarkText(v)) return;
+                        c.ForeColor = Fg;
+                        LogOnce("textovolta:" + c.GetType().FullName + ":" + c.Name, "Texto voltou escuro (" + CorTexto(v) + ") e foi clareado na hora: " + c.GetType().FullName + " '" + c.Name + "'");
+                    }
+                    catch { }
+                };
+                c.Disposed += delegate { textosVigiados.Remove(c); };
             }
         }
 

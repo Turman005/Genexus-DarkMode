@@ -230,7 +230,7 @@ namespace GxDarkTheme
             new[] { "textoui", "DCE2EB", "Texto da interface", "t" },
         };
 
-        // linhas do Output: id, cor padrao (a que o GxDarkTheme ja mostrava), nome
+        // linhas do Output: id, cor padrao (a que o GxDarkTheme ja mostrava), nome [, "m" = padrao segue o tema via M()]
         public static readonly string[][] OutputTokens =
         {
             new[] { "info",     "A0A7B2", "Informação" },
@@ -238,12 +238,15 @@ namespace GxDarkTheme
             new[] { "aviso",    "FFA500", "Aviso (warning)" },
             new[] { "destaque", "A5FF00", "Mensagem de destaque" },
             new[] { "secao",    "6A9955", "Início de seção (==== Build ...)" },
+            // link do Monaco (ex.: "Learn more"): o Monaco fixa azul puro #00F, ilegivel no escuro; padrao = cor de link do tema
+            new[] { "link",     "5BA7FF", "Link (ex.: Learn more)", "m" },
         };
 
         public static Color OutputCor(Tema t, string id)
         {
             if (t != null && t.Output != null && t.Output.ContainsKey(id)) return t.Output[id];
-            foreach (string[] o in OutputTokens) if (o[0] == id) return Cor.Hex(o[1]);
+            foreach (string[] o in OutputTokens)
+                if (o[0] == id) return o.Length > 3 && t != null ? t.M(Cor.Hex(o[1])) : Cor.Hex(o[1]);
             return Color.Gray;
         }
 

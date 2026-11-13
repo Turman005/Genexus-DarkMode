@@ -150,7 +150,7 @@ namespace GxDarkTheme
             if (k == "destaque") return esc.Destaque;
             if (k.StartsWith("s:")) return esc.Sintaxe[Id(k)];
             if (k.StartsWith("a:")) { string[] a = Area(Id(k)); return esc.Fixas.ContainsKey(a[0]) ? esc.Fixas[a[0]] : p.M(Cor.Hex(a[1])); }
-            return esc.Output.ContainsKey(Id(k)) ? esc.Output[Id(k)] : Temas.OutputCor(null, Id(k));
+            return esc.Output.ContainsKey(Id(k)) ? esc.Output[Id(k)] : Temas.OutputCor(p, Id(k));
         }
 
         bool Definir(string k, Color c)
@@ -364,10 +364,11 @@ namespace GxDarkTheme
             const TextFormatFlags F = TextFormatFlags.NoPrefix | TextFormatFlags.NoPadding;
             using (Font fUi = new Font("Segoe UI", 8.5f))
             using (Font fUiB = new Font("Segoe UI", 8.5f, FontStyle.Bold))
+            using (Font fUiS = new Font("Segoe UI", 8.5f, FontStyle.Underline))
             using (Font fCod = new Font("Consolas", 9.5f))
             {
                 int aUi = fUi.Height + 3;
-                int hBarra = u + 6, hOut = aUi * 6 + 8, lArv = Math.Min(u * 9, r.Width / 3);
+                int hBarra = u + 6, hOut = aUi * 7 + 8, lArv = Math.Min(u * 9, r.Width / 3);
                 Rectangle barra = new Rectangle(r.X, r.Y, r.Width, hBarra);
                 Rectangle arv = new Rectangle(r.X, barra.Bottom, lArv, r.Height - hBarra);
                 Rectangle ed = new Rectangle(arv.Right, barra.Bottom, r.Right - arv.Right, r.Height - hBarra - hOut);
@@ -439,12 +440,13 @@ namespace GxDarkTheme
                     new[] { "aviso", "warning: variável &Aux não é usada" },
                     new[] { "erro", "error: PedVal não pertence à tabela Pedido" },
                     new[] { "destaque", "Build concluído com 1 erro" },
+                    new[] { "link", "Learn more" },
                 };
                 int oy = saida.Y + aUi + 5;
                 foreach (string[] s in saidas)
                 {
                     if (oy + aUi > saida.Bottom) break;
-                    TextRenderer.DrawText(g, s[1], s[0] == "erro" ? fUiB : fUi, new Point(saida.X + m, oy), Valor("o:" + s[0], p), F);
+                    TextRenderer.DrawText(g, s[1], s[0] == "erro" ? fUiB : s[0] == "link" ? fUiS : fUi, new Point(saida.X + m, oy), Valor("o:" + s[0], p), F);
                     oy += aUi;
                 }
 

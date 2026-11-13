@@ -1768,7 +1768,7 @@ namespace GxDarkTheme
             "monaco.editor.setTheme=function(n){window.__gxLast=n;if(n==='vs')n='vs-dark';return os.call(monaco.editor,n);};" +
             "if(/outputpane/.test(u)){monaco.editor.defineTheme('outputTheme',{base:'vs',inherit:false,rules:[{token:'custom-info',foreground:'808080'},{token:'custom-error',foreground:'ff0000',fontStyle:'bold'},{token:'custom-warning',foreground:'FFA500'},{token:'custom-infomsg',foreground:'A5FF00'},{token:'start-section',foreground:'008800'}]});monaco.editor.setTheme('outputTheme');}" +
             "else{os.call(monaco.editor,'vs-dark');}" +
-            "if(!document.getElementById('gxMonCss')){var st2=document.createElement('style');st2.id='gxMonCss';st2.textContent='.monaco-editor .minimap{border-left-color:#333D47 !important}';(document.head||document.documentElement).appendChild(st2);}" +
+            "if(!document.getElementById('gxMonCss')){var st2=document.createElement('style');st2.id='gxMonCss';st2.textContent='.monaco-editor .minimap{border-left-color:#333D47 !important}.monaco-editor .detected-link,.monaco-editor .detected-link-active{color:#@@O_link@@ !important}';(document.head||document.documentElement).appendChild(st2);}" +
             "return true;}catch(e){return false;}}" +
             "if(!gxMon()&&!window.__gxMonTimer){var gxn=0;window.__gxMonTimer=setInterval(function(){if(gxMon()||++gxn>60){clearInterval(window.__gxMonTimer);window.__gxMonTimer=0;}},500);}" +
             // relatorios HTML do ReportView (Navigation View, Impact Analysis, List Database, Import): folha de estilo Next desenhada,
