@@ -110,7 +110,28 @@ namespace GxDarkTheme
             TabControl tc = c as TabControl;
             if (tc != null) MolduraDasAbas.Ligar(tc);
             if (c is ComboBox || c is TreeView) TextoVigiado(c);
+            if (n == "Artech.FrameworkDE.Controls.GxTreeView") ArvoreGx((TreeView)c);
             TelaDesenhada.Visitar(c);
+        }
+
+        // Arvore de Tools > Options (GxTreeView 'treeCategories', DrawMode=OwnerDrawAll): o desenho proprio do GeneXus
+        // usa texto PRETO fixo - com ForeColor ja claro (#E4E1DE no log de 13/11) o texto continuava preto no fundo escuro,
+        // e o codigo de desenho vem protegido (nao da para ler). No escuro a arvore passa a ser desenhada pelo Windows
+        // (DrawMode=Normal, que usa ForeColor/BackColor do tema, e rolagem/setas DarkMode_Explorer). O Journal guarda o
+        // DrawMode original: o modo claro devolve o desenho do GeneXus.
+        static void ArvoreGx(TreeView tv)
+        {
+            if (!On || tv.DrawMode == TreeViewDrawMode.Normal) return;
+            try
+            {
+                TreeViewDrawMode antes = tv.DrawMode;
+                Journal.SnapNamed(tv, "DrawMode");
+                tv.DrawMode = TreeViewDrawMode.Normal;
+                DarkScroll(tv, "DarkMode_Explorer");
+                tv.Invalidate();
+                LogOnce("arvoregx:" + tv.Name, "Arvore GxTreeView '" + tv.Name + "' desenhada pelo Windows no escuro (era " + antes + ": texto preto fixo)");
+            }
+            catch (Exception ex) { LogOnce("arvoregxerro:" + tv.Name, "Arvore GxTreeView '" + tv.Name + "': " + ex.GetType().Name + ": " + ex.Message); }
         }
 
         // Combo de eventos do editor (headerComboBox): o GeneXus devolve o texto PRETO ao trocar a lista, e a lista
